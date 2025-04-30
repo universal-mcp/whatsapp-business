@@ -33,7 +33,7 @@ source .venv/bin/activate
 ### 3. Start the MCP Inspector
 Use the MCP CLI to start the application in development mode.
 ```bash
-mcp dev src/universal mcp whatsapp business/mcp.py
+mcp dev src/universal_mcp_whatsapp_business/mcp.py
 ```
 The MCP inspector should now be running. Check the console output for the exact address and port.
 
@@ -82,7 +82,7 @@ The generated project has a standard layout:
 ```
 .
 ├── src/                  # Source code directory
-│   └── universal mcp whatsapp business/
+│   └── universal_mcp_whatsapp_business/
 │       ├── __init__.py
 │       └── mcp.py        # Server is launched here
 │       └── app.py        # Application tools are defined here
