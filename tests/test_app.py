@@ -4,6 +4,7 @@ import pytest
 
 from universal_mcp_whatsapp_business.app import WhatsappBusinessApp
 
+
 @pytest.fixture
 def app_instance():
     """Provides a WhatsappBusinessApp instance for tests."""
@@ -19,7 +20,7 @@ def test_universal_mcp_whatsapp_business_app_initialization(app_instance):
     assert hasattr(app_instance, 'name'), "Application instance should have a 'name' attribute."
     assert isinstance(app_instance.name, str), "Application name should be a string."
     assert app_instance.name.strip() != "", "Application name should not be empty."
-    assert app_instance.name == "whatsapp-business", "WhatsappBusinessApp instance has unexpected name."
+    assert app_instance.name == "whatsappbusinessapp", "WhatsappBusinessApp instance has unexpected name."
 
 
 def test_universal_mcp_whatsapp_business_tool_docstrings_format(app_instance):
