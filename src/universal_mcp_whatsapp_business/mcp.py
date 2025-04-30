@@ -6,7 +6,7 @@ from universal_mcp.stores.store import EnvironmentStore
 from universal_mcp_whatsapp_business.app import WhatsappBusinessApp
 
 env_store = EnvironmentStore()
-integration_instance = ApiKeyIntegration(name="WHATSAPP-BUSINESS_API_KEY", store=env_store)
+integration_instance = ApiKeyIntegration(name="WHATSAPP_BUSINESS_API_KEY", store=env_store)
 app_instance = WhatsappBusinessApp(integration=integration_instance)
 
 mcp = SingleMCPServer(
