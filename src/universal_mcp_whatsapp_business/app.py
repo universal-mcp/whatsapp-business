@@ -1,4 +1,4 @@
-from typing import Annotated, Any, Dict, List, Optional
+from typing import Annotated, Any
 
 from universal_mcp.applications import APIApplication
 from universal_mcp.integrations import Integration
@@ -9,7 +9,7 @@ class WhatsappBusinessApp(APIApplication):
         super().__init__(name='whatsappbusinessapp', integration=integration, **kwargs)
         self.base_url = "https://graph.facebook.com"
 
-    def get_analytics(self, api_version: str, waba_id: str, fields: Annotated[Optional[Any], ''] = None) -> Dict[str, Any]:
+    def get_analytics(self, api_version: str, waba_id: str, fields: Annotated[Any | None, ''] = None) -> dict[str, Any]:
         """
         Retrieve WhatsApp Business Account analytics data via the WABA Analytics API endpoints.
 
@@ -38,7 +38,7 @@ class WhatsappBusinessApp(APIApplication):
         response.raise_for_status()
         return response.json()
 
-    def get_credit_lines(self, api_version: str, business_account_id: str) -> Dict[str, Any]:
+    def get_credit_lines(self, api_version: str, business_account_id: str) -> dict[str, Any]:
         """
         Retrieve credit line information from the Facebook Marketing API Business > Extendedcredits endpoint.
 
@@ -63,7 +63,7 @@ class WhatsappBusinessApp(APIApplication):
         response.raise_for_status()
         return response.json()
 
-    def get_business_account_specific_fields(self, api_version: str, business_account_id: str, fields: Annotated[Optional[Any], ''] = None) -> Dict[str, Any]:
+    def get_business_account_specific_fields(self, api_version: str, business_account_id: str, fields: Annotated[Any | None, ''] = None) -> dict[str, Any]:
         """
         Retrieve business account data with specified fields from the Facebook Marketing API.
 
@@ -92,7 +92,7 @@ class WhatsappBusinessApp(APIApplication):
         response.raise_for_status()
         return response.json()
 
-    def get_commerce_settings(self, api_version: str, business_phone_number_id: str) -> Dict[str, Any]:
+    def get_commerce_settings(self, api_version: str, business_phone_number_id: str) -> dict[str, Any]:
         """
         Retrieve the commerce settings configured for the WhatsApp Business account.
 
@@ -117,7 +117,7 @@ class WhatsappBusinessApp(APIApplication):
         response.raise_for_status()
         return response.json()
 
-    def set_or_update_commerce_settings(self, api_version: str, business_phone_number_id: str, is_cart_enabled: Annotated[Optional[Any], ''] = None, is_catalog_visible: Annotated[Optional[Any], ''] = None) -> Dict[str, Any]:
+    def set_or_update_commerce_settings(self, api_version: str, business_phone_number_id: str, is_cart_enabled: Annotated[Any | None, ''] = None, is_catalog_visible: Annotated[Any | None, ''] = None) -> dict[str, Any]:
         """
         Set or update WhatsApp commerce settings.
 
@@ -149,7 +149,7 @@ class WhatsappBusinessApp(APIApplication):
         response.raise_for_status()
         return response.json()
 
-    def upload_media_step1_of2_create_session(self, api_version: str, app_id: str, file_length: Annotated[Optional[Any], 'File size, in bytes'] = None, file_type: Annotated[Optional[Any], 'File MIME type (e.g. image/jpg)'] = None) -> Dict[str, Any]:
+    def upload_media_step1_of2_create_session(self, api_version: str, app_id: str, file_length: Annotated[Any | None, 'File size, in bytes'] = None, file_type: Annotated[Any | None, 'File MIME type (e.g. image/jpg)'] = None) -> dict[str, Any]:
         """
         Initiates a resumable media upload session by creating an upload session ID and preparing the endpoint.
 
@@ -180,7 +180,7 @@ class WhatsappBusinessApp(APIApplication):
         response.raise_for_status()
         return response.json()
 
-    def upload_media_step2_of2_initiate_upload(self, api_version: str, session_id: str, file_offset: Annotated[Any, 'Offset in bytes for resumable upload'] = 0, request_body: Annotated[Any, 'Raw file content bytes'] = None) -> Dict[str, Any]:
+    def upload_media_step2_of2_initiate_upload(self, api_version: str, session_id: str, file_offset: Annotated[Any, 'Offset in bytes for resumable upload'] = 0, request_body: Annotated[Any, 'Raw file content bytes'] = None) -> dict[str, Any]:
         """
         Initiates a media upload to a server using a resumable upload API.
 
@@ -210,7 +210,7 @@ class WhatsappBusinessApp(APIApplication):
         response.raise_for_status()
         return response.json()
 
-    def get_business_phone_number(self, api_version: str, business_phone_number_id: str, fields: Annotated[Optional[Any], ''] = None) -> Dict[str, Any]:
+    def get_business_phone_number(self, api_version: str, business_phone_number_id: str, fields: Annotated[Any | None, ''] = None) -> dict[str, Any]:
         """
         Retrieves the business phone number for the associated WhatsApp Business Account.
 
@@ -239,7 +239,7 @@ class WhatsappBusinessApp(APIApplication):
         response.raise_for_status()
         return response.json()
 
-    def get_all_business_phone_numbers(self, api_version: str, waba_id: str, fields: Annotated[Optional[Any], ''] = None, filtering: Annotated[Optional[Any], ''] = None) -> Dict[str, Any]:
+    def get_all_business_phone_numbers(self, api_version: str, waba_id: str, fields: Annotated[Any | None, ''] = None, filtering: Annotated[Any | None, ''] = None) -> dict[str, Any]:
         """
         Retrieves all business phone numbers, optionally filtering by specified fields or criteria.
 
@@ -270,7 +270,7 @@ class WhatsappBusinessApp(APIApplication):
         response.raise_for_status()
         return response.json()
 
-    def get_qr_code(self, api_version: str, business_phone_number_id: str, qr_code_id: str) -> Dict[str, Any]:
+    def get_qr_code(self, api_version: str, business_phone_number_id: str, qr_code_id: str) -> dict[str, Any]:
         """
         Retrieves QR code information from the WhatsApp Business API for the associated business account.
 
@@ -296,7 +296,7 @@ class WhatsappBusinessApp(APIApplication):
         response.raise_for_status()
         return response.json()
 
-    def delete_qr_code(self, api_version: str, business_phone_number_id: str, qr_code_id: str) -> Dict[str, Any]:
+    def delete_qr_code(self, api_version: str, business_phone_number_id: str, qr_code_id: str) -> dict[str, Any]:
         """
         Deletes a QR code from the WhatsApp Business API.
 
@@ -322,7 +322,7 @@ class WhatsappBusinessApp(APIApplication):
         response.raise_for_status()
         return response.json()
 
-    def get_all_qr_codes_default_fields(self, api_version: str, business_phone_number_id: str, code: Annotated[Optional[Any], ''] = None, fields: Annotated[Optional[Any], '.format can be SVG or PNG'] = None) -> Dict[str, Any]:
+    def get_all_qr_codes_default_fields(self, api_version: str, business_phone_number_id: str, code: Annotated[Any | None, ''] = None, fields: Annotated[Any | None, '.format can be SVG or PNG'] = None) -> dict[str, Any]:
         """
         Retrieves QR codes with default fields from the WhatsApp Business API.
 
@@ -354,7 +354,7 @@ class WhatsappBusinessApp(APIApplication):
         response.raise_for_status()
         return response.json()
 
-    def create_qr_code(self, api_version: str, business_phone_number_id: str, code: Annotated[Optional[Any], ''] = None, prefilled_message: Annotated[Optional[Any], ''] = None) -> Dict[str, Any]:
+    def create_qr_code(self, api_version: str, business_phone_number_id: str, code: Annotated[Any | None, ''] = None, prefilled_message: Annotated[Any | None, ''] = None) -> dict[str, Any]:
         """
         Creates a QR code based on the provided code and prefilled message.
 
@@ -386,7 +386,7 @@ class WhatsappBusinessApp(APIApplication):
         response.raise_for_status()
         return response.json()
 
-    def get_template_by_id_default_fields(self, api_version: str, template_id: str) -> Dict[str, Any]:
+    def get_template_by_id_default_fields(self, api_version: str, template_id: str) -> dict[str, Any]:
         """
         Retrieves a WhatsApp message template by ID, including default fields.
 
@@ -411,7 +411,7 @@ class WhatsappBusinessApp(APIApplication):
         response.raise_for_status()
         return response.json()
 
-    def edit_template(self, api_version: str, template_id: str, category: Annotated[Optional[Any], ''] = None, components: Annotated[Optional[List[Any]], ''] = None, language: Annotated[Optional[Any], ''] = None, name: Annotated[Optional[Any], ''] = None) -> Dict[str, Any]:
+    def edit_template(self, api_version: str, template_id: str, category: Annotated[Any | None, ''] = None, components: Annotated[list[Any] | None, ''] = None, language: Annotated[Any | None, ''] = None, name: Annotated[Any | None, ''] = None) -> dict[str, Any]:
         """
         Edits a template by sending a POST request with the specified parameters.
 
@@ -447,7 +447,7 @@ class WhatsappBusinessApp(APIApplication):
         response.raise_for_status()
         return response.json()
 
-    def get_template_by_name_default_fields(self, api_version: str, waba_id: str, name: Annotated[Optional[Any], ''] = None) -> Dict[str, Any]:
+    def get_template_by_name_default_fields(self, api_version: str, waba_id: str, name: Annotated[Any | None, ''] = None) -> dict[str, Any]:
         """
         Retrieves a WhatsApp message template by name using default fields from the WhatsApp Business Account API.
 
@@ -476,7 +476,7 @@ class WhatsappBusinessApp(APIApplication):
         response.raise_for_status()
         return response.json()
 
-    def create_authentication_template_wotp_copy_code_button(self, api_version: str, waba_id: str, category: Annotated[Optional[Any], ''] = None, components: Annotated[Optional[List[Any]], ''] = None, language: Annotated[Optional[Any], ''] = None, name: Annotated[Optional[Any], ''] = None) -> Dict[str, Any]:
+    def create_authentication_template_wotp_copy_code_button(self, api_version: str, waba_id: str, category: Annotated[Any | None, ''] = None, components: Annotated[list[Any] | None, ''] = None, language: Annotated[Any | None, ''] = None, name: Annotated[Any | None, ''] = None) -> dict[str, Any]:
         """
         Creates an authentication message template with an OTP copy code button for WhatsApp Business API.
 
@@ -512,7 +512,7 @@ class WhatsappBusinessApp(APIApplication):
         response.raise_for_status()
         return response.json()
 
-    def delete_template_by_name(self, api_version: str, waba_id: str, hsm_id: Annotated[Optional[Any], 'Template ID'] = None, name: Annotated[Optional[Any], ''] = None) -> Dict[str, Any]:
+    def delete_template_by_name(self, api_version: str, waba_id: str, hsm_id: Annotated[Any | None, 'Template ID'] = None, name: Annotated[Any | None, ''] = None) -> dict[str, Any]:
         """
         Deletes a message template by name from a WhatsApp Business API account.
 
@@ -543,7 +543,7 @@ class WhatsappBusinessApp(APIApplication):
         response.raise_for_status()
         return response.json()
 
-    def get_all_apps_subscribed_to_waba_swebhooks(self, api_version: str, waba_id: str) -> Dict[str, Any]:
+    def get_all_apps_subscribed_to_waba_swebhooks(self, api_version: str, waba_id: str) -> dict[str, Any]:
         """
         Retrieve all apps subscribed to WABA's webhooks.
 
@@ -568,7 +568,7 @@ class WhatsappBusinessApp(APIApplication):
         response.raise_for_status()
         return response.json()
 
-    def subscribe_app_to_waba_swebhooks(self, api_version: str, waba_id: str) -> Dict[str, Any]:
+    def subscribe_app_to_waba_swebhooks(self, api_version: str, waba_id: str) -> dict[str, Any]:
         """
         Subscribe an application to WhatsApp Business Account (WABA) webhooks.
 
@@ -593,7 +593,7 @@ class WhatsappBusinessApp(APIApplication):
         response.raise_for_status()
         return response.json()
 
-    def unsubscribe_app_from_waba_swebhooks(self, api_version: str, waba_id: str) -> Dict[str, Any]:
+    def unsubscribe_app_from_waba_swebhooks(self, api_version: str, waba_id: str) -> dict[str, Any]:
         """
         Unsubscribes the app from WhatsApp Business Account (WABA) webhooks, removing all existing subscriptions.
 
@@ -618,7 +618,7 @@ class WhatsappBusinessApp(APIApplication):
         response.raise_for_status()
         return response.json()
 
-    def get_all_shared_wabas(self, api_version: str, business_account_id: str) -> Dict[str, Any]:
+    def get_all_shared_wabas(self, api_version: str, business_account_id: str) -> dict[str, Any]:
         """
         Retrieve all shared WhatsApp Business Accounts (WABAs) associated with the authenticated business.
 
@@ -643,7 +643,7 @@ class WhatsappBusinessApp(APIApplication):
         response.raise_for_status()
         return response.json()
 
-    def get_all_owned_wabas(self, api_version: str, business_account_id: str) -> Dict[str, Any]:
+    def get_all_owned_wabas(self, api_version: str, business_account_id: str) -> dict[str, Any]:
         """
         Retrieves all owned WhatsApp Business Accounts (WABAs) through an API request.
 
