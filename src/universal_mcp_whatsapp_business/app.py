@@ -1,673 +1,673 @@
-from typing import Annotated, Any
-
+from typing import Any
 from universal_mcp.applications import APIApplication
 from universal_mcp.integrations import Integration
 
-
-class WhatsappBusinessApp(APIApplication):
+class WhatsappbusinessApp(APIApplication):
     def __init__(self, integration: Integration = None, **kwargs) -> None:
         super().__init__(name='whatsappbusinessapp', integration=integration, **kwargs)
         self.base_url = "https://graph.facebook.com"
 
-    def get_analytics(self, api_version: str, waba_id: str, fields: Annotated[Any | None, ''] = None) -> dict[str, Any]:
+    def get_analytics(self, api_version, waba_id, fields=None) -> dict[str, Any]:
         """
-        Retrieve WhatsApp Business Account analytics data via the WABA Analytics API endpoints.
+        Retrieves details of a specified WhatsApp Business Account (WABA) with customizable fields using the GET method.
 
         Args:
-            api_version: The API version to use (e.g., 'v16.0').
-            waba_id: The WhatsApp Business Account ID.
-            fields: Optional fields filter (Annotated[Any, '']) specifying which analytics metrics to return. Defaults to None, which typically returns all available fields through API defaults.
+            api_version (string): api-version
+            waba_id (string): waba-id
+            fields (string): Specifies which fields to include/exclude in the response for the WhatsApp Business Account resource. Example: 'analytics.start(1680503760).end(1680564980).granularity(DAY).phone_numbers([]).country_codes(["US", "BR"])'.
 
         Returns:
-            Dictionary containing the requested analytics data, structured according to the API response format with string keys and dynamic values.
-
-        Raises:
-            HTTPError: If the API request fails due to network issues, invalid parameters, or authentication failures.
+            dict[str, Any]: Example reponse / Example response / Example response / Example response
 
         Tags:
-            analytics, waba, api-client, get, business-management, important
+            WhatsApp Business Accounts (WABA)
         """
-        # Path: /{api-version}/{waba-id} (GET)
-        path = f"/{api_version}/{waba_id}"
-        url = f"{self.base_url}{path}"
-        query_params = {
-                "fields": fields,
-            }
-        query_params = {k: v for k, v in query_params.items() if v is not None}
+        if api_version is None:
+            raise ValueError("Missing required parameter 'api-version'")
+        if waba_id is None:
+            raise ValueError("Missing required parameter 'waba-id'")
+        url = f"{self.base_url}/{api_version}/{waba_id}"
+        query_params = {k: v for k, v in [('fields', fields)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
         return response.json()
 
-    def get_credit_lines(self, api_version: str, business_account_id: str) -> dict[str, Any]:
+    def get_credit_lines(self, api_version, business_account_id) -> dict[str, Any]:
         """
-        Retrieve credit line information from the Facebook Marketing API Business > Extendedcredits endpoint.
+        Retrieves the extended credit lines available for a specified business account using its ID.
 
         Args:
-            api_version: The API version to use (e.g., 'v16.0').
-            business_account_id: The Business Account ID.
+            api_version (string): api-version
+            business_account_id (string): business-account-id
 
         Returns:
-            A dictionary containing credit line details as returned by the API.
-
-        Raises:
-            requests.exceptions.HTTPError: Raised when the API request fails with a 4XX/5XX status code.
+            dict[str, Any]: Example response
 
         Tags:
-            billing, api-client, facebook, marketing, important
+            Billing
         """
-        # Path: /{api-version}/{business-account-id}/extendedcredits (GET)
-        path = f"/{api_version}/{business_account_id}/extendedcredits"
-        url = f"{self.base_url}{path}"
+        if api_version is None:
+            raise ValueError("Missing required parameter 'api-version'")
+        if business_account_id is None:
+            raise ValueError("Missing required parameter 'business-account-id'")
+        url = f"{self.base_url}/{api_version}/{business_account_id}/extendedcredits"
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
         return response.json()
 
-    def get_business_account_specific_fields(self, api_version: str, business_account_id: str, fields: Annotated[Any | None, ''] = None) -> dict[str, Any]:
+    def get_business_account_specific_fields(self, api_version, business_account_id, fields=None) -> dict[str, Any]:
         """
-        Retrieve business account data with specified fields from the Facebook Marketing API.
+        Retrieves information about a business account using the specified API version and business account ID, optionally filtering the response fields via a query parameter.
 
         Args:
-            api_version: The API version to use (e.g., 'v16.0').
-            business_account_id: The Business Account ID.
-            fields: Comma-separated field names to include in the response (see API reference for available fields). If None, all available fields are returned by default.
+            api_version (string): api-version
+            business_account_id (string): business-account-id
+            fields (string): Specifies the fields to include in the response, reducing payload size by returning only the requested data. Example: 'id,name,timezone_id'.
 
         Returns:
-            Dictionary containing the requested business account data from the API response.
-
-        Raises:
-            HTTPError: If the API request fails due to invalid parameters, authentication issues, or server errors.
+            dict[str, Any]: Example response
 
         Tags:
-            business, api, retrieve, fields, important
+            Business accounts
         """
-        # Path: /{api-version}/{business-account-id} (GET)
-        path = f"/{api_version}/{business_account_id}"
-        url = f"{self.base_url}{path}"
-        query_params = {
-                "fields": fields,
-            }
-        query_params = {k: v for k, v in query_params.items() if v is not None}
+        if api_version is None:
+            raise ValueError("Missing required parameter 'api-version'")
+        if business_account_id is None:
+            raise ValueError("Missing required parameter 'business-account-id'")
+        url = f"{self.base_url}/{api_version}/{business_account_id}"
+        query_params = {k: v for k, v in [('fields', fields)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
         return response.json()
 
-    def get_commerce_settings(self, api_version: str, business_phone_number_id: str) -> dict[str, Any]:
+    def get_commerce_settings(self, api_version, business_phone_number_id) -> dict[str, Any]:
         """
-        Retrieve the commerce settings configured for the WhatsApp Business account.
+        Retrieves the commerce settings configured for a specific WhatsApp Business phone number.
 
         Args:
-            api_version: The API version to use (e.g., 'v16.0').
-            business_phone_number_id: The WhatsApp Business Phone Number ID.
+            api_version (string): api-version
+            business_phone_number_id (string): business-phone-number-id
 
         Returns:
-            A dictionary containing the commerce settings data, typically including payment configurations and product/service permissions.
-
-        Raises:
-            requests.exceptions.HTTPError: Raised when the API request fails, such as due to network issues, invalid authentication, or server errors.
+            dict[str, Any]: Example response
 
         Tags:
-            commerce, retrieve, settings, important
+            Commerce
         """
-        # Path: /{api-version}/{business-phone-number-id}/whatsapp_commerce_settings (GET)
-        path = f"/{api_version}/{business_phone_number_id}/whatsapp_commerce_settings"
-        url = f"{self.base_url}{path}"
+        if api_version is None:
+            raise ValueError("Missing required parameter 'api-version'")
+        if business_phone_number_id is None:
+            raise ValueError("Missing required parameter 'business-phone-number-id'")
+        url = f"{self.base_url}/{api_version}/{business_phone_number_id}/whatsapp_commerce_settings"
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
         return response.json()
 
-    def set_or_update_commerce_settings(self, api_version: str, business_phone_number_id: str, is_cart_enabled: Annotated[Any | None, ''] = None, is_catalog_visible: Annotated[Any | None, ''] = None) -> dict[str, Any]:
+    def set_or_update_commerce_settings(self, api_version, business_phone_number_id, is_cart_enabled=None, is_catalog_visible=None) -> dict[str, Any]:
         """
-        Set or update WhatsApp commerce settings.
+        Updates WhatsApp Business commerce settings (cart availability and catalog visibility) for a specific business phone number.
 
         Args:
-            api_version: The API version to use (e.g., 'v16.0').
-            business_phone_number_id: The WhatsApp Business Phone Number ID.
-            is_cart_enabled: Optional boolean indicating whether the cart is enabled.
-            is_catalog_visible: Optional boolean indicating whether the catalog is visible.
+            api_version (string): api-version
+            business_phone_number_id (string): business-phone-number-id
+            is_cart_enabled (string): Indicates whether the shopping cart is enabled or disabled for the specified WhatsApp commerce settings. Example: 'true'.
+            is_catalog_visible (string): Determines whether the business's product catalog is visible to customers in WhatsApp conversations. Example: 'true'.
 
         Returns:
-            A dictionary containing the updated commerce settings.
-
-        Raises:
-            HTTPError: Raised if the HTTP request fails, typically due to network errors or invalid responses.
+            dict[str, Any]: Example response
 
         Tags:
-            commerce, management, update, important
+            Commerce
         """
-        # Path: /{api-version}/{business-phone-number-id}/whatsapp_commerce_settings (POST)
-        path = f"/{api_version}/{business_phone_number_id}/whatsapp_commerce_settings"
-        url = f"{self.base_url}{path}"
-        query_params = {
-                "is_cart_enabled": is_cart_enabled,
-                "is_catalog_visible": is_catalog_visible,
-            }
-        # Note: Schema defines these as query parameters for POST, which is followed here.
-        query_params = {k: v for k, v in query_params.items() if v is not None}
-        response = self._post(url, params=query_params) # Using params for query parameters
+        if api_version is None:
+            raise ValueError("Missing required parameter 'api-version'")
+        if business_phone_number_id is None:
+            raise ValueError("Missing required parameter 'business-phone-number-id'")
+        url = f"{self.base_url}/{api_version}/{business_phone_number_id}/whatsapp_commerce_settings"
+        query_params = {k: v for k, v in [('is_cart_enabled', is_cart_enabled), ('is_catalog_visible', is_catalog_visible)] if v is not None}
+        response = self._post(url, data={}, params=query_params)
         response.raise_for_status()
         return response.json()
 
-    def upload_media_step1_of2_create_session(self, api_version: str, app_id: str, file_length: Annotated[Any | None, 'File size, in bytes'] = None, file_type: Annotated[Any | None, 'File MIME type (e.g. image/jpg)'] = None) -> dict[str, Any]:
+    def upload_media_step1_of2_create_session(self, api_version, app_id, file_length=None, file_type=None) -> dict[str, Any]:
         """
-        Initiates a resumable media upload session by creating an upload session ID and preparing the endpoint.
+        Uploads a file using the specified API version and application ID, with optional query parameters for file length and type, and returns a successful status message upon completion.
 
         Args:
-            api_version: The API version to use (e.g., 'v16.0').
-            app_id: The Application ID.
-            file_length: File size in bytes (required for resumable upload API)
-            file_type: File MIME type (e.g. 'image/jpg', required for content validation)
+            api_version (string): api-version
+            app_id (string): app-id
+            file_length (string): File size, in bytes Example: '<FILE_SIZE>'.
+            file_type (string): File MIME type (e.g. image/jpg) Example: '<MIME_TYPE>'.
 
         Returns:
-            dict[str, Any]: Upload session metadata including upload URL and session ID
-
-        Raises:
-            requests.HTTPError: Raised for 4XX/5XX status codes during API communication
+            dict[str, Any]: Step 1 example response
 
         Tags:
-            media, upload, async-job, api, management, important
+            Media
         """
-        # Path: /{api-version}/{app-id}/uploads (POST)
-        path = f"/{api_version}/{app_id}/uploads"
-        url = f"{self.base_url}{path}"
-        query_params = {
-                "file_length": file_length,
-                "file_type": file_type,
-            }
-        query_params = {k: v for k, v in query_params.items() if v is not None}
-        response = self._post(url, params=query_params)
+        if api_version is None:
+            raise ValueError("Missing required parameter 'api-version'")
+        if app_id is None:
+            raise ValueError("Missing required parameter 'app-id'")
+        url = f"{self.base_url}/{api_version}/{app_id}/uploads"
+        query_params = {k: v for k, v in [('file_length', file_length), ('file_type', file_type)] if v is not None}
+        response = self._post(url, data={}, params=query_params)
         response.raise_for_status()
         return response.json()
 
-    def upload_media_step2_of2_initiate_upload(self, api_version: str, session_id: str, file_offset: Annotated[Any, 'Offset in bytes for resumable upload'] = 0, request_body: Annotated[Any, 'Raw file content bytes'] = None) -> dict[str, Any]:
+    def upload_media_step2_of2_initiate_upload(self, api_version, request_body=None) -> dict[str, Any]:
         """
-        Initiates a media upload to a server using a resumable upload API.
+        Initiates a session using the provided SESSION_ID and file offset specified in the header, supporting further session-related operations via the POST method at the "/{api-version}/<SESSION_ID>" endpoint.
 
         Args:
-            api_version: The API version to use (e.g., 'v16.0').
-            session_id: The upload session ID obtained from step 1.
-            file_offset: Offset in bytes for the resumable upload (usually 0 for the first chunk).
-            request_body: An optional annotated dictionary with the upload payload (default is None), ideally raw bytes for file content.
+            api_version (string): api-version
+            request_body (dict | None): Optional dictionary for arbitrary request body data.
 
         Returns:
-            A dictionary containing the server's response.
-
-        Raises:
-            requests.HTTPError: Raised if the server responds with an unsuccessful status code.
+            dict[str, Any]: Step 2 example response
 
         Tags:
-            upload, media, important
+            Media
         """
-        # Path: /{api-version}/<SESSION_ID> (POST)
-        path = f"/{api_version}/{session_id}"
-        url = f"{self.base_url}{path}"
-        query_params = {} # Schema defines no query params for POST
-        headers = {"file_offset": str(file_offset)} # Schema defines file_offset as a header
-
-        # request_body should likely be raw file content bytes
-        response = self._post(url, data=request_body, params=query_params, headers=headers)
+        if api_version is None:
+            raise ValueError("Missing required parameter 'api-version'")
+        url = f"{self.base_url}/{api_version}/<SESSION_ID>"
+        query_params = {}
+        response = self._post(url, data=request_body, params=query_params)
         response.raise_for_status()
         return response.json()
 
-    def get_business_phone_number(self, api_version: str, business_phone_number_id: str, fields: Annotated[Any | None, ''] = None) -> dict[str, Any]:
+    def get_business_phone_number(self, api_version, business_phone_number_id, fields=None) -> dict[str, Any]:
         """
-        Retrieves the business phone number for the associated WhatsApp Business Account.
+        Retrieves details for a specific business phone number ID using query parameters to specify returned fields.
 
         Args:
-            api_version: The API version to use (e.g., 'v16.0').
-            business_phone_number_id: The WhatsApp Business Phone Number ID.
-            fields: Optional field specifying which fields to include in the response. Defaults to None.
+            api_version (string): api-version
+            business_phone_number_id (string): business-phone-number-id
+            fields (string): Specifies which fields to include in the response for the business phone number. Example: 'id,display_phone_number,name_status'.
 
         Returns:
-            A dictionary containing the phone number details.
-
-        Raises:
-            HTTPError: If the HTTP request returns an unsuccessful status code.
+            dict[str, Any]: Example response / Example response
 
         Tags:
-            phone-numbers, whatsapp-business, management-api, important
+            Phone numbers
         """
-        # Path: /{api-version}/{business-phone-number-id} (GET)
-        path = f"/{api_version}/{business_phone_number_id}"
-        url = f"{self.base_url}{path}"
-        query_params = {
-                "fields": fields,
-            }
-        query_params = {k: v for k, v in query_params.items() if v is not None}
+        if api_version is None:
+            raise ValueError("Missing required parameter 'api-version'")
+        if business_phone_number_id is None:
+            raise ValueError("Missing required parameter 'business-phone-number-id'")
+        url = f"{self.base_url}/{api_version}/{business_phone_number_id}"
+        query_params = {k: v for k, v in [('fields', fields)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
         return response.json()
 
-    def get_all_business_phone_numbers(self, api_version: str, waba_id: str, fields: Annotated[Any | None, ''] = None, filtering: Annotated[Any | None, ''] = None) -> dict[str, Any]:
+    def get_all_business_phone_numbers(self, api_version, waba_id, fields=None, filtering=None) -> list[Any]:
         """
-        Retrieves all business phone numbers, optionally filtering by specified fields or criteria.
+        Retrieves a list of phone numbers associated with a specific WhatsApp Business Account (WABA), allowing for filtering and customization of the response fields.
 
         Args:
-            api_version: The API version to use (e.g., 'v16.0').
-            waba_id: The WhatsApp Business Account ID.
-            fields: Optional fields to include in the response.
-            filtering: Optional filtering criteria for the phone numbers.
+            api_version (string): api-version
+            waba_id (string): waba-id
+            fields (string): Optional parameter to specify which fields should be included in the response for phone numbers associated with a WABA, allowing customization of the returned data. Example: 'id,is_official_business_account,display_phone_number,verified_name'.
+            filtering (string): Specifies query parameters to filter phone numbers based on specific criteria for the GET operation. Example: "[{'field':'account_mode','operator':'EQUAL','value':'SANDBOX'}]".
 
         Returns:
-            A dictionary containing the API response with a 'data' key containing a list of all business phone numbers.
-
-        Raises:
-            requests.HTTPError: Raised if the HTTP request returns an unsuccessful status code.
+            list[Any]: Example response
 
         Tags:
-            phone-numbers, management, important, api-request
+            Phone numbers
         """
-        # Path: /{api-version}/{waba-id}/phone_numbers (GET)
-        path = f"/{api_version}/{waba_id}/phone_numbers"
-        url = f"{self.base_url}{path}"
-        query_params = {
-                "fields": fields,
-                "filtering": filtering,
-            }
-        query_params = {k: v for k, v in query_params.items() if v is not None}
+        if api_version is None:
+            raise ValueError("Missing required parameter 'api-version'")
+        if waba_id is None:
+            raise ValueError("Missing required parameter 'waba-id'")
+        url = f"{self.base_url}/{api_version}/{waba_id}/phone_numbers"
+        query_params = {k: v for k, v in [('fields', fields), ('filtering', filtering)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
         return response.json()
 
-    def get_qr_code(self, api_version: str, business_phone_number_id: str, qr_code_id: str) -> dict[str, Any]:
+    def get_qr_code(self, api_version, business_phone_number_id) -> dict[str, Any]:
         """
-        Retrieves QR code information from the WhatsApp Business API for the associated business account.
+        Retrieves a message linked to a specific QR code for a business phone number using the GET method via the API.
 
         Args:
-            api_version: The API version to use (e.g., 'v16.0').
-            business_phone_number_id: The WhatsApp Business Phone Number ID.
-            qr_code_id: The ID of the specific QR code to retrieve.
+            api_version (string): api-version
+            business_phone_number_id (string): business-phone-number-id
 
         Returns:
-            A dictionary containing QR code details from the API response, including configuration data and expiry information
-
-        Raises:
-            requests.exceptions.HTTPError: Raised when the API request fails, typically due to invalid credentials, network issues, or server errors
+            dict[str, Any]: Example Response
 
         Tags:
-            qr-code, api, whatsapp, business, retrieve, important
+            QR codes
         """
-        # Path: /{api-version}/{business-phone-number-id}/message_qrdls/<QR_CODE_ID> (GET)
-        path = f"/{api_version}/{business_phone_number_id}/message_qrdls/{qr_code_id}"
-        url = f"{self.base_url}{path}"
+        if api_version is None:
+            raise ValueError("Missing required parameter 'api-version'")
+        if business_phone_number_id is None:
+            raise ValueError("Missing required parameter 'business-phone-number-id'")
+        url = f"{self.base_url}/{api_version}/{business_phone_number_id}/message_qrdls/<QR_CODE_ID>"
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
         return response.json()
 
-    def delete_qr_code(self, api_version: str, business_phone_number_id: str, qr_code_id: str) -> dict[str, Any]:
+    def delete_qr_code(self, api_version, business_phone_number_id) -> dict[str, Any]:
         """
-        Deletes a QR code from the WhatsApp Business API.
+        Deletes a specific WhatsApp Business QR code using the provided QR code ID and returns a success message if the operation is completed successfully.
 
         Args:
-            api_version: The API version to use (e.g., 'v16.0').
-            business_phone_number_id: The WhatsApp Business Phone Number ID.
-            qr_code_id: The ID of the specific QR code to delete.
+            api_version (string): api-version
+            business_phone_number_id (string): business-phone-number-id
 
         Returns:
-            A dictionary containing the result of the QR code deletion.
-
-        Raises:
-            requests.exceptions.HTTPError: Raised if an HTTP error occurs during the request.
+            dict[str, Any]: Example Response
 
         Tags:
-            delete, qr-code, whatsapp, important
+            QR codes
         """
-        # Path: /{api-version}/{business-phone-number-id}/message_qrdls/<QR_CODE_ID> (DELETE)
-        path = f"/{api_version}/{business_phone_number_id}/message_qrdls/{qr_code_id}"
-        url = f"{self.base_url}{path}"
+        if api_version is None:
+            raise ValueError("Missing required parameter 'api-version'")
+        if business_phone_number_id is None:
+            raise ValueError("Missing required parameter 'business-phone-number-id'")
+        url = f"{self.base_url}/{api_version}/{business_phone_number_id}/message_qrdls/<QR_CODE_ID>"
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
         return response.json()
 
-    def get_all_qr_codes_default_fields(self, api_version: str, business_phone_number_id: str, code: Annotated[Any | None, ''] = None, fields: Annotated[Any | None, '.format can be SVG or PNG'] = None) -> dict[str, Any]:
+    def get_all_qr_codes_default_fields(self, api_version, business_phone_number_id, fields=None, code=None) -> dict[str, Any]:
         """
-        Retrieves QR codes with default fields from the WhatsApp Business API.
+        Retrieves a list of message QR code deep links associated with a business phone number, filtered by specified fields and QR code identifiers.
 
         Args:
-            api_version: The API version to use (e.g., 'v16.0').
-            business_phone_number_id: The WhatsApp Business Phone Number ID.
-            code: Optional filter parameter to specify QR codes by code identifier
-            fields: Optional format specification for QR code output (e.g., SVG or PNG)
+            api_version (string): api-version
+            business_phone_number_id (string): business-phone-number-id
+            fields (string): .format can be SVG or PNG Example: 'code,prefilled_message,qr_image_url.format(SVG)'.
+            code (string): The unique identifier code used to filter messages associated with the specified business phone number. Example: '<QR_CODE_ID>'.
 
         Returns:
-            Dictionary containing the API response data with QR code information
-
-        Raises:
-            requests.HTTPError: Raised when the API request fails due to HTTP errors (4XX/5XX status codes)
+            dict[str, Any]: Example Response / Example Response / Example Response / Example Response
 
         Tags:
-            qr-codes, retrieve, management, api, important
+            QR codes
         """
-        # Path: /{api-version}/{business-phone-number-id}/message_qrdls (GET)
-        path = f"/{api_version}/{business_phone_number_id}/message_qrdls"
-        url = f"{self.base_url}{path}"
-        query_params = {
-                "fields": fields,
-                "code": code,
-            }
-        query_params = {k: v for k, v in query_params.items() if v is not None}
-        # Schema has requestBody defined for GET, but it's empty and unusual for GET. Removed request_body from call.
+        if api_version is None:
+            raise ValueError("Missing required parameter 'api-version'")
+        if business_phone_number_id is None:
+            raise ValueError("Missing required parameter 'business-phone-number-id'")
+        url = f"{self.base_url}/{api_version}/{business_phone_number_id}/message_qrdls"
+        query_params = {k: v for k, v in [('fields', fields), ('code', code)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
         return response.json()
 
-    def create_qr_code(self, api_version: str, business_phone_number_id: str, code: Annotated[Any | None, ''] = None, prefilled_message: Annotated[Any | None, ''] = None) -> dict[str, Any]:
+    def create_qr_code(self, api_version, business_phone_number_id, code=None, prefilled_message=None) -> dict[str, Any]:
         """
-        Creates a QR code based on the provided code and prefilled message.
+        Creates a WhatsApp Business QR code with a predefined message and returns the generated code details.
 
         Args:
-            api_version: The API version to use (e.g., 'v16.0').
-            business_phone_number_id: The WhatsApp Business Phone Number ID.
-            code: Optional code to include in the QR code. Defaults to None.
-            prefilled_message: Optional prefilled message to include in the QR code. Defaults to None.
+            api_version (string): api-version
+            business_phone_number_id (string): business-phone-number-id
+            code (string): code Example: 'WOMVT6TJ2BP7A1'.
+            prefilled_message (string): prefilled_message
+                Example:
+                ```json
+                {
+                  "generate_qr_image": "SVG",
+                  "prefilled_message": "Show me Cyber Monday deals!"
+                }
+                ```
 
         Returns:
-            A dictionary containing the response after creating the QR code.
-
-        Raises:
-            requests.HTTPError: Raised if there is an issue with the HTTP request, such as an invalid response status.
+            dict[str, Any]: Example Response / Example Response
 
         Tags:
-            qr-code, whatsapp, important
+            QR codes
         """
-        # Path: /{api-version}/{business-phone-number-id}/message_qrdls (POST)
-        path = f"/{api_version}/{business_phone_number_id}/message_qrdls"
-        url = f"{self.base_url}{path}"
-        query_params = {} # Schema defines no query params for POST
+        if api_version is None:
+            raise ValueError("Missing required parameter 'api-version'")
+        if business_phone_number_id is None:
+            raise ValueError("Missing required parameter 'business-phone-number-id'")
         request_body = {
-            "code": code,
-            "prefilled_message": prefilled_message,
+            'code': code,
+            'prefilled_message': prefilled_message,
         }
         request_body = {k: v for k, v in request_body.items() if v is not None}
-        response = self._post(url, json=request_body, params=query_params) # Using json for request body
+        url = f"{self.base_url}/{api_version}/{business_phone_number_id}/message_qrdls"
+        query_params = {}
+        response = self._post(url, data=request_body, params=query_params)
         response.raise_for_status()
         return response.json()
 
-    def get_template_by_id_default_fields(self, api_version: str, template_id: str) -> dict[str, Any]:
+    def get_template_by_id_default_fields(self, api_version) -> dict[str, Any]:
         """
-        Retrieves a WhatsApp message template by ID, including default fields.
+        Retrieves a template using the specified template ID from the API version path.
 
         Args:
-            api_version: The API version to use (e.g., 'v16.0').
-            template_id: The ID of the specific message template to retrieve.
+            api_version (string): api-version
 
         Returns:
-            A dictionary with template data.
-
-        Raises:
-            requests.HTTPError: Raised when there's an issue with the HTTP request status, such as a non-successful status code.
+            dict[str, Any]: Example response
 
         Tags:
-            templates, whatsapp, message-templates, important
+            Templates
         """
-        # Path: /{api-version}/<TEMPLATE_ID> (GET)
-        path = f"/{api_version}/{template_id}"
-        url = f"{self.base_url}{path}"
+        if api_version is None:
+            raise ValueError("Missing required parameter 'api-version'")
+        url = f"{self.base_url}/{api_version}/<TEMPLATE_ID>"
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
         return response.json()
 
-    def edit_template(self, api_version: str, template_id: str, category: Annotated[Any | None, ''] = None, components: Annotated[list[Any] | None, ''] = None, language: Annotated[Any | None, ''] = None, name: Annotated[Any | None, ''] = None) -> dict[str, Any]:
+    def edit_template(self, api_version, category=None, components=None, language=None, name=None) -> dict[str, Any]:
         """
-        Edits a template by sending a POST request with the specified parameters.
+        Creates or processes a resource using the specified template ID based on the API version and returns a successful status upon completion.
 
         Args:
-            api_version: The API version to use (e.g., 'v16.0').
-            template_id: The ID of the specific message template to edit.
-            category: Optional category for the template.
-            components: Optional components for the template.
-            language: Optional language for the template.
-            name: Optional name for the template.
+            api_version (string): api-version
+            category (string): category Example: 'MARKETING'.
+            components (array): components Example: "[{'format': 'TEXT', 'text': 'Fall Sale', 'type': 'HEADER'}, {'example': {'body_text': [['Mark', 'FALL25']]}, 'text': 'Hi {{1}}, our Fall Sale is on! Use promo code {{2}} Get an extra 25% off every order above $350!', 'type': 'BODY'}, {'text': 'Not interested in any of our sales? Tap Stop Promotions', 'type': 'FOOTER'}, {'buttons': [{'text': 'Stop promotions', 'type': 'QUICK_REPLY'}], 'type': 'BUTTONS'}]".
+            language (string): language Example: 'en_US'.
+            name (string): name
+                Example:
+                ```json
+                {
+                  "category": "MARKETING",
+                  "components": [
+                    {
+                      "format": "TEXT",
+                      "text": "Fall Sale",
+                      "type": "HEADER"
+                    },
+                    {
+                      "example": {
+                        "body_text": [
+                          [
+                            "Mark",
+                            "FALL25"
+                          ]
+                        ]
+                      },
+                      "text": "Hi {{1}}, our Fall Sale is on! Use promo code {{2}} Get an extra 25% off every order above $350!",
+                      "type": "BODY"
+                    },
+                    {
+                      "text": "Not interested in any of our sales? Tap Stop Promotions",
+                      "type": "FOOTER"
+                    },
+                    {
+                      "buttons": [
+                        {
+                          "text": "Stop promotions",
+                          "type": "QUICK_REPLY"
+                        }
+                      ],
+                      "type": "BUTTONS"
+                    }
+                  ],
+                  "language": "en_US",
+                  "name": "2023_april_promo"
+                }
+                ```
 
         Returns:
-            A dictionary containing the response data from the POST request.
-
-        Raises:
-            requests.HTTPError: Raised if the HTTP request returned an unsuccessful status code.
+            dict[str, Any]: Example response
 
         Tags:
-            edit, template, management, important
+            Templates
         """
-        # Path: /{api-version}/<TEMPLATE_ID> (POST)
-        path = f"/{api_version}/{template_id}"
-        url = f"{self.base_url}{path}"
-        query_params = {} # Schema defines no query params for POST
+        if api_version is None:
+            raise ValueError("Missing required parameter 'api-version'")
         request_body = {
-            "category": category,
-            "components": components,
-            "language": language,
-            "name": name,
+            'category': category,
+            'components': components,
+            'language': language,
+            'name': name,
         }
         request_body = {k: v for k, v in request_body.items() if v is not None}
-        response = self._post(url, json=request_body, params=query_params) # Using json for request body
+        url = f"{self.base_url}/{api_version}/<TEMPLATE_ID>"
+        query_params = {}
+        response = self._post(url, data=request_body, params=query_params)
         response.raise_for_status()
         return response.json()
 
-    def get_template_by_name_default_fields(self, api_version: str, waba_id: str, name: Annotated[Any | None, ''] = None) -> dict[str, Any]:
+    def get_template_by_name_default_fields(self, api_version, waba_id, name=None) -> dict[str, Any]:
         """
-        Retrieves a WhatsApp message template by name using default fields from the WhatsApp Business Account API.
+        Retrieves a list of WhatsApp message templates associated with a specific WhatsApp Business Account using the "GET" method, allowing filtering by template name.
 
         Args:
-            api_version: The API version to use (e.g., 'v16.0').
-            waba_id: The WhatsApp Business Account ID.
-            name: Name of the template to retrieve. If None, returns templates without name filtering.
+            api_version (string): api-version
+            waba_id (string): waba-id
+            name (string): Filters message templates by exact name match. Example: '<TEMPLATE_NAME>'.
 
         Returns:
-            Dictionary containing template data as returned by the WhatsApp Business Account API.
-
-        Raises:
-            HTTPError: If the API request fails (e.g., invalid credentials, template not found).
+            dict[str, Any]: Example response / Example response
 
         Tags:
-            templates, whatsapp, api, management, important
+            Templates
         """
-        # Path: /{api-version}/{waba-id}/message_templates (GET)
-        path = f"/{api_version}/{waba_id}/message_templates"
-        url = f"{self.base_url}{path}"
-        query_params = {
-                "name": name,
-            }
-        query_params = {k: v for k, v in query_params.items() if v is not None}
+        if api_version is None:
+            raise ValueError("Missing required parameter 'api-version'")
+        if waba_id is None:
+            raise ValueError("Missing required parameter 'waba-id'")
+        url = f"{self.base_url}/{api_version}/{waba_id}/message_templates"
+        query_params = {k: v for k, v in [('name', name)] if v is not None}
         response = self._get(url, params=query_params)
         response.raise_for_status()
         return response.json()
 
-    def create_authentication_template_wotp_copy_code_button(self, api_version: str, waba_id: str, category: Annotated[Any | None, ''] = None, components: Annotated[list[Any] | None, ''] = None, language: Annotated[Any | None, ''] = None, name: Annotated[Any | None, ''] = None) -> dict[str, Any]:
+    def create_authentication_template_wotp_copy_code_button(self, api_version, waba_id, category=None, components=None, language=None, name=None) -> dict[str, Any]:
         """
-        Creates an authentication message template with an OTP copy code button for WhatsApp Business API.
+        Creates a new WhatsApp message template for a business account, allowing businesses to send standardized messages to customers.
 
         Args:
-            api_version: The API version to use (e.g., 'v16.0').
-            waba_id: The WhatsApp Business Account ID.
-            category: Template category (e.g., authentication, marketing). Required by WhatsApp's template guidelines.
-            components: List containing structured components for the template, including the OTP button configuration.
-            language: Language code for the template (e.g., 'en_US' for English-US).
-            name: Unique identifier name for the template.
+            api_version (string): api-version
+            waba_id (string): waba-id
+            category (string): category Example: 'UTILITY'.
+            components (array): components Example: "[{'example': {'header_handle': ['4::YXBwbGljYXRpb24vcGRm:ARZVv4zuogJMxmAdS3_6T4o_K4ll2806avA7rWpikisTzYPsXXUeKk0REjS-hIM1rYrizHD7rQXj951TKgUFblgd_BDWVROCwRkg9Vhjj-cHNQ:e:1681237341:634974688087057:100089620928913:ARa1ZDhwbLZM3EENeeg']}, 'format': 'DOCUMENT', 'type': 'HEADER'}, {'example': {'body_text': [['Mark', '860198-230332']]}, 'text': 'Thank you for your order, {{1}}! Your order number is {{2}}. Tap the PDF linked above to view your receipt. If you have any questions, please use the buttons below to contact support. Thanks again!', 'type': 'BODY'}, {'buttons': [{'phone_number': '16467043595', 'text': 'Call', 'type': 'PHONE_NUMBER'}, {'text': 'Contact Support', 'type': 'URL', 'url': 'https://www.examplesite.com/support'}], 'type': 'BUTTONS'}]".
+            language (string): language Example: 'en_US'.
+            name (string): name
+                Example:
+                ```json
+                {
+                  "category": "AUTHENTICATION",
+                  "components": [
+                    {
+                      "add_security_recommendation": true,
+                      "type": "BODY"
+                    },
+                    {
+                      "code_expiration_minutes": 10,
+                      "type": "FOOTER"
+                    },
+                    {
+                      "buttons": [
+                        {
+                          "otp_type": "COPY_CODE",
+                          "text": "Copy Code",
+                          "type": "OTP"
+                        }
+                      ],
+                      "type": "BUTTONS"
+                    }
+                  ],
+                  "language": "en_US",
+                  "name": "authentication_code_copy_code_button"
+                }
+                ```
 
         Returns:
-            Dictionary containing the API response data, typically including template approval status and template ID.
-
-        Raises:
-            HTTPError: Raised if the API request fails (e.g., invalid parameters, authentication issues, or server errors).
+            dict[str, Any]: Example response / Example response / Example response / Example response / Example response / Example response / Example response / Example response
 
         Tags:
-            authentication, templates, whatsapp-api, async-job, important
+            Templates
         """
-        # Path: /{api-version}/{waba-id}/message_templates (POST)
-        path = f"/{api_version}/{waba_id}/message_templates"
-        url = f"{self.base_url}{path}"
-        query_params = {} # Schema defines no query params for POST
+        if api_version is None:
+            raise ValueError("Missing required parameter 'api-version'")
+        if waba_id is None:
+            raise ValueError("Missing required parameter 'waba-id'")
         request_body = {
-            "category": category,
-            "components": components,
-            "language": language,
-            "name": name,
+            'category': category,
+            'components': components,
+            'language': language,
+            'name': name,
         }
         request_body = {k: v for k, v in request_body.items() if v is not None}
-        response = self._post(url, json=request_body, params=query_params) # Using json for request body
+        url = f"{self.base_url}/{api_version}/{waba_id}/message_templates"
+        query_params = {}
+        response = self._post(url, data=request_body, params=query_params)
         response.raise_for_status()
         return response.json()
 
-    def delete_template_by_name(self, api_version: str, waba_id: str, hsm_id: Annotated[Any | None, 'Template ID'] = None, name: Annotated[Any | None, ''] = None) -> dict[str, Any]:
+    def delete_template_by_name(self, api_version, waba_id, name=None, hsm_id=None) -> dict[str, Any]:
         """
-        Deletes a message template by name from a WhatsApp Business API account.
+        Deletes WhatsApp message templates by name (all languages) or specific ID using query parameters and returns a success status.
 
         Args:
-            api_version: The API version to use (e.g., 'v16.0').
-            waba_id: The WhatsApp Business Account ID.
-            hsm_id: Optional template ID for filtering (or deletion target if name is not used).
-            name: Optional template name used for deletion (or filtering if hsm_id is not used).
+            api_version (string): api-version
+            waba_id (string): waba-id
+            name (string): The name of the message template to delete. Example: '<TEMPLATE_NAME>'.
+            hsm_id (string): Template ID Example: '<HSM_ID>'.
 
         Returns:
-            A dictionary containing the response from the deletion request.
-
-        Raises:
-            requests.RequestException: Raised if there is an issue with the HTTP request, such as network errors or invalid server responses.
+            dict[str, Any]: Example response / Example response
 
         Tags:
-            delete, templates, whatsapp-api, management, important
+            Templates
         """
-        # Path: /{api-version}/{waba-id}/message_templates (DELETE)
-        path = f"/{api_version}/{waba_id}/message_templates"
-        url = f"{self.base_url}{path}"
-        query_params = {
-                "name": name,
-                "hsm_id": hsm_id,
-            }
-        query_params = {k: v for k, v in query_params.items() if v is not None}
+        if api_version is None:
+            raise ValueError("Missing required parameter 'api-version'")
+        if waba_id is None:
+            raise ValueError("Missing required parameter 'waba-id'")
+        url = f"{self.base_url}/{api_version}/{waba_id}/message_templates"
+        query_params = {k: v for k, v in [('name', name), ('hsm_id', hsm_id)] if v is not None}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
         return response.json()
 
-    def get_all_apps_subscribed_to_waba_swebhooks(self, api_version: str, waba_id: str) -> dict[str, Any]:
+    def get_all_apps_subscribed_to_waba_swebhooks(self, api_version, waba_id) -> dict[str, Any]:
         """
-        Retrieve all apps subscribed to WABA's webhooks.
+        Retrieves a list of apps subscribed to webhooks for a WhatsApp Business Account using the GET method.
 
         Args:
-            api_version: The API version to use (e.g., 'v16.0').
-            waba_id: The WhatsApp Business Account ID.
+            api_version (string): api-version
+            waba_id (string): waba-id
 
         Returns:
-            A dictionary mapping app identities to their details, represented as Any.
-
-        Raises:
-            requests.RequestException: Raised if there is an issue with the HTTP request, such as network errors or invalid responses.
+            dict[str, Any]: Example response
 
         Tags:
-            list, management, webhooks, waba, important
+            Webhooks
         """
-        # Path: /{api-version}/{waba-id}/subscribed_apps (GET)
-        path = f"/{api_version}/{waba_id}/subscribed_apps"
-        url = f"{self.base_url}{path}"
+        if api_version is None:
+            raise ValueError("Missing required parameter 'api-version'")
+        if waba_id is None:
+            raise ValueError("Missing required parameter 'waba-id'")
+        url = f"{self.base_url}/{api_version}/{waba_id}/subscribed_apps"
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
         return response.json()
 
-    def subscribe_app_to_waba_swebhooks(self, api_version: str, waba_id: str) -> dict[str, Any]:
+    def subscribe_app_to_waba_swebhooks(self, api_version, waba_id) -> dict[str, Any]:
         """
-        Subscribe an application to WhatsApp Business Account (WABA) webhooks.
+        Subscribes an app to webhooks for a WhatsApp Business Account (WABA) using the POST method at the `/subscribed_apps` endpoint, allowing the app to receive updates and notifications from the WABA.
 
         Args:
-            api_version: The API version to use (e.g., 'v16.0').
-            waba_id: The WhatsApp Business Account ID.
+            api_version (string): api-version
+            waba_id (string): waba-id
 
         Returns:
-            A dictionary containing the subscription response from the WABA API.
-
-        Raises:
-            requests.exceptions.HTTPError: Raised if the HTTP request to subscribe the app fails.
+            dict[str, Any]: Example response
 
         Tags:
-            subscribe, webhooks, waba, important
+            Webhooks
         """
-        # Path: /{api-version}/{waba-id}/subscribed_apps (POST)
-        path = f"/{api_version}/{waba_id}/subscribed_apps"
-        url = f"{self.base_url}{path}"
-        query_params = {} # Schema defines no query params for POST
-        response = self._post(url, params=query_params)
+        if api_version is None:
+            raise ValueError("Missing required parameter 'api-version'")
+        if waba_id is None:
+            raise ValueError("Missing required parameter 'waba-id'")
+        url = f"{self.base_url}/{api_version}/{waba_id}/subscribed_apps"
+        query_params = {}
+        response = self._post(url, data={}, params=query_params)
         response.raise_for_status()
         return response.json()
 
-    def unsubscribe_app_from_waba_swebhooks(self, api_version: str, waba_id: str) -> dict[str, Any]:
+    def unsubscribe_app_from_waba_swebhooks(self, api_version, waba_id) -> dict[str, Any]:
         """
-        Unsubscribes the app from WhatsApp Business Account (WABA) webhooks, removing all existing subscriptions.
+        Unsubscribes an app from webhook notifications for a WhatsApp Business Account.
 
         Args:
-            api_version: The API version to use (e.g., 'v16.0').
-            waba_id: The WhatsApp Business Account ID.
+            api_version (string): api-version
+            waba_id (string): waba-id
 
         Returns:
-            dict[str, Any]: Response data from the API containing operation results or confirmation details
-
-        Raises:
-            requests.exceptions.HTTPError: Raised when the API request fails (e.g., network issues, invalid credentials, or resource not found)
+            dict[str, Any]: Example response
 
         Tags:
-            webhooks, unsubscribe, whatsapp, api, management, important
+            Webhooks
         """
-        # Path: /{api-version}/{waba-id}/subscribed_apps (DELETE)
-        path = f"/{api_version}/{waba_id}/subscribed_apps"
-        url = f"{self.base_url}{path}"
+        if api_version is None:
+            raise ValueError("Missing required parameter 'api-version'")
+        if waba_id is None:
+            raise ValueError("Missing required parameter 'waba-id'")
+        url = f"{self.base_url}/{api_version}/{waba_id}/subscribed_apps"
         query_params = {}
         response = self._delete(url, params=query_params)
         response.raise_for_status()
         return response.json()
 
-    def get_all_shared_wabas(self, api_version: str, business_account_id: str) -> dict[str, Any]:
+    def get_all_shared_wabas(self, api_version, business_account_id) -> Any:
         """
-        Retrieve all shared WhatsApp Business Accounts (WABAs) associated with the authenticated business.
+        Retrieves information about WhatsApp Business accounts associated with a business client, using the specified business account ID and API version.
 
         Args:
-            api_version: The API version to use (e.g., 'v16.0').
-            business_account_id: The Business Account ID.
+            api_version (string): api-version
+            business_account_id (string): business-account-id
 
         Returns:
-            Dict[str, Any]: A dictionary containing the API response data, typically including WABA details and associated metadata.
-
-        Raises:
-            HTTPError: Raised if the API request fails due to network issues, authorization errors, or invalid endpoint parameters.
+            Any: API response data.
 
         Tags:
-            whatsapp, waba, list, retrieve, business, api, important
+            WhatsApp Business Accounts (WABA)
         """
-        # Path: /{api-version}/{business-account-id}/client_whatsapp_business_accounts (GET)
-        path = f"/{api_version}/{business_account_id}/client_whatsapp_business_accounts"
-        url = f"{self.base_url}{path}"
+        if api_version is None:
+            raise ValueError("Missing required parameter 'api-version'")
+        if business_account_id is None:
+            raise ValueError("Missing required parameter 'business-account-id'")
+        url = f"{self.base_url}/{api_version}/{business_account_id}/client_whatsapp_business_accounts"
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
         return response.json()
 
-    def get_all_owned_wabas(self, api_version: str, business_account_id: str) -> dict[str, Any]:
+    def get_all_owned_wabas(self, api_version, business_account_id) -> dict[str, Any]:
         """
-        Retrieves all owned WhatsApp Business Accounts (WABAs) through an API request.
+        Retrieves a list of WhatsApp Business Accounts owned by or shared with the specified business account using a GET request to the given endpoint.
 
         Args:
-            api_version: The API version to use (e.g., 'v16.0').
-            business_account_id: The Business Account ID.
+            api_version (string): api-version
+            business_account_id (string): business-account-id
 
         Returns:
-            A dictionary containing the API response data with WABA details, typically including account IDs, statuses, and ownership metadata.
-
-        Raises:
-            HTTPError: Raised when the API request fails, including scenarios like invalid authentication, network issues, or server errors (handled by response.raise_for_status()).
+            dict[str, Any]: Example response
 
         Tags:
-            waba, management, api-request, important
+            WhatsApp Business Accounts (WABA)
         """
-        # Path: /{api-version}/{business-account-id}/owned_whatsapp_business_accounts (GET)
-        path = f"/{api_version}/{business_account_id}/owned_whatsapp_business_accounts"
-        url = f"{self.base_url}{path}"
+        if api_version is None:
+            raise ValueError("Missing required parameter 'api-version'")
+        if business_account_id is None:
+            raise ValueError("Missing required parameter 'business-account-id'")
+        url = f"{self.base_url}/{api_version}/{business_account_id}/owned_whatsapp_business_accounts"
         query_params = {}
         response = self._get(url, params=query_params)
         response.raise_for_status()
         return response.json()
-
 
     def list_tools(self):
         return [
