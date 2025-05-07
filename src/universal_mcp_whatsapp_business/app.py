@@ -69,7 +69,7 @@ class WhatsappBusinessApp(APIApplication):
             dict[str, Any]: Example response
 
         Tags:
-            Business accounts
+            Business accounts, important
         """
         if api_version is None:
             raise ValueError("Missing required parameter 'api-version'")
@@ -169,7 +169,7 @@ class WhatsappBusinessApp(APIApplication):
             dict[str, Any]: Step 2 example response
 
         Tags:
-            Media
+            Media, important
         """
         if api_version is None:
             raise ValueError("Missing required parameter 'api-version'")
@@ -448,7 +448,7 @@ class WhatsappBusinessApp(APIApplication):
             dict[str, Any]: Example response / Example response
 
         Tags:
-            Templates
+            Templates, important
         """
         if api_version is None:
             raise ValueError("Missing required parameter 'api-version'")
