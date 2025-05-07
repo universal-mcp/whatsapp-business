@@ -2,9 +2,9 @@ from typing import Any
 from universal_mcp.applications import APIApplication
 from universal_mcp.integrations import Integration
 
-class WhatsappbusinessApp(APIApplication):
+class WhatsappBusinessApp(APIApplication):
     def __init__(self, integration: Integration = None, **kwargs) -> None:
-        super().__init__(name='whatsappbusinessapp', integration=integration, **kwargs)
+        super().__init__(name='whatsapp-business', integration=integration, **kwargs)
         self.base_url = "https://graph.facebook.com"
 
     def get_analytics(self, api_version, waba_id, fields=None) -> dict[str, Any]:
