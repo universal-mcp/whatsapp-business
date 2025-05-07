@@ -2,7 +2,7 @@ from typing import Any
 from universal_mcp.applications import APIApplication
 from universal_mcp.integrations import Integration
 
-class WhatsappbusinessApp(APIApplication):
+class WhatsappBusinessApp(APIApplication):
     def __init__(self, integration: Integration = None, **kwargs) -> None:
         super().__init__(name='whatsappbusinessapp', integration=integration, **kwargs)
         self.base_url = "https://graph.facebook.com"
